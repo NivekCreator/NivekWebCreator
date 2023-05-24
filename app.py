@@ -1,19 +1,14 @@
-from flask import Flask, request, render_template_string, session
+from flask import Flask, request, render_template, session
 import openai
 
 app = Flask(__name__)
-app.secret_key = "5404"
+app.secret_key = "your_secret_key"
 openai.api_key = "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"
 
 @app.route('/')
 def index():
     session['conversation'] = []
-    return '''
-    <form method="POST" action="/get">
-        <input type="text" name="user_input">
-        <input type="submit" value="Enviar">
-    </form>
-    '''
+    return render_template('index.html')
 
 @app.route('/get', methods=['POST'])
 def get_bot_response():
@@ -36,13 +31,7 @@ def get_bot_response():
     conversation.append(f"AI: {response_text}")
     session['conversation'] = conversation
 
-    return render_template_string('''
-    <form method="POST" action="/get">
-        <input type="text" name="user_input">
-        <input type="submit" value="Enviar">
-    </form>
-    <p>{{ response_text }}</p>
-    ''', response_text=response_text)
+    return render_template('response.html', response_text=response_text)
 
 if __name__ == '__main__':
     app.run(debug=True)
