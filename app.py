@@ -2,7 +2,7 @@ from flask import Flask, request, render_template, session
 import openai
 
 app = Flask(__name__)
-app.secret_key = "your_secret_key"
+app.secret_key = "5404"
 openai.api_key = "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"
 
 @app.route('/')
